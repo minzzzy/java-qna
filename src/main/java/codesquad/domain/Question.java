@@ -1,43 +1,39 @@
 package codesquad.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Question {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String writer;
     private String title;
+    @Column(columnDefinition = "TEXT NOT NULL")
     private String contents;
-    private int point;
+    @Column(columnDefinition = "INT NOT NULL DEFAULT 0")
+    private Integer comment;
 
-    public Question() { }
-
-    public Question(String writer, String title, String contents, int point) {
-        this.point = point;
-        this.title = title;
-        this.writer = writer;
-        this.contents = contents;
+    public Question() {
+        comment = 0;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getContents() {
-        return contents;
+    public String getWriter() {
+        return writer;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
+    public void setWriter(String writer) {
+        this.writer = writer;
     }
 
     public String getTitle() {
@@ -48,11 +44,20 @@ public class Question {
         this.title = title;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getContents() {
+        return contents;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
+
+    public Integer getComment() {
+        return comment;
+    }
+
+    public void setComment(Integer comment) {
+        this.comment = comment;
+    }
+
 }
