@@ -59,5 +59,4 @@ public class Question {
     public void setComment(Integer comment) {
         this.comment = comment;
     }
-
 }
