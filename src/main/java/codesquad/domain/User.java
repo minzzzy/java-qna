@@ -1,6 +1,6 @@
 package codesquad.domain;
 
-import codesquad.dto.UserUpdateDto;
+import codesquad.dto.user.UserUpdateDto;
 
 import javax.persistence.*;
 
@@ -12,8 +12,11 @@ public class User {
 
     @Column(length = 30, unique = true, nullable = false)
     private String userId;
+    @Column(length = 100, nullable = false)
     private String password;
+    @Column(length = 30, nullable = false)
     private String name;
+    @Column(length = 30, unique = true, nullable = false)
     private String email;
 
     public User() {
@@ -28,22 +31,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUserId() {
@@ -62,13 +49,11 @@ public class User {
         return email;
     }
 
-    public boolean equalsPassword(String currentPassword) {
-        return password.equals(currentPassword);
-    }
-
     public void update(UserUpdateDto dto) {
-        email = dto.getEmail();
-        name = dto.getName();
-        password = dto.getPassword();
+        if (password.equals(dto.getCurrentPassword())) {
+            email = dto.getEmail();
+            name = dto.getName();
+            password = dto.getPassword();
+        }
     }
 }

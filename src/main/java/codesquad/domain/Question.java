@@ -8,12 +8,15 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 30, nullable = false)
     private String writer;
+    @Column(length = 100, nullable = false)
     private String title;
-    @Column(columnDefinition = "TEXT NOT NULL")
+
+    @Lob
     private String contents;
-    @Column(columnDefinition = "INT NOT NULL DEFAULT 0")
+
+    @Column(nullable = false)
     private Integer comment;
 
     public Question() {
@@ -32,17 +35,11 @@ public class Question {
         return writer;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getContents() {
         return contents;
@@ -54,10 +51,6 @@ public class Question {
 
     public Integer getComment() {
         return comment;
-    }
-
-    public void setComment(Integer comment) {
-        this.comment = comment;
     }
 
 }

@@ -2,8 +2,9 @@ package codesquad.web;
 
 import codesquad.domain.User;
 import codesquad.domain.UserRepository;
-import codesquad.dto.UserRegisterDto;
-import codesquad.dto.UserUpdateDto;
+import codesquad.dto.user.UserRegisterDto;
+import codesquad.dto.user.UserUpdateDto;
+import codesquad.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,26 +28,32 @@ public class UserController {
         return "/user/list";
     }
 
-    @GetMapping("/{index}")
-    public String show(@PathVariable long index, Model model) {
-        model.addAttribute("user", userRepository.findById(index).get());
+    @GetMapping("/{id}")
+    public String show(@PathVariable long id, Model model) {
+        model.addAttribute("user", searchUser(id));
         return "/user/profile";
     }
 
     @GetMapping("/{id}/form")
     public String updateForm(@PathVariable long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("user", searchUser(id));
         return "/user/updateForm";
     }
 
     @PutMapping("/{id}")
     public String updateUser(@PathVariable long id, UserUpdateDto dto) {
-        User user = userRepository.findById(id).get();
-        if (user.equalsPassword(dto.getCurrentPassword())) {
-            user.update(dto);
-            userRepository.save(user);
-        }
+        User user = searchUser(id);
+        user.update(dto);
+        userRepository.save(user);
         return "redirect:/users";
     }
 
+    private User searchUser(long id) {
+        return userRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public String handleUserNotFoundException() {
+        return "redirect:/";
+    }
 }

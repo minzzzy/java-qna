@@ -1,14 +1,14 @@
-package codesquad.dto;
+package codesquad.dto.user;
 
-import codesquad.domain.User;
+public class UserDto {
+    protected String name;
+    protected String password;
+    protected String email;
 
-public class UserUpdateDto {
-    private String name;
-    private String password;
-    private String currentPassword;
-    private String email;
-
-    public UserUpdateDto() {
+    public UserDto(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
     }
 
     public String getName() {
@@ -25,14 +25,6 @@ public class UserUpdateDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getCurrentPassword() {
-        return currentPassword;
-    }
-
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
     }
 
     public String getEmail() {
